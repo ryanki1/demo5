@@ -1,5 +1,5 @@
-import { Product } from '../product';
-import { ProductActionTypes, ProductActions } from './product.actions';
+import {Product} from '../product';
+import {ProductActions, ProductActionTypes} from './product.actions';
 
 // State for this feature (Product)
 export interface ProductState {

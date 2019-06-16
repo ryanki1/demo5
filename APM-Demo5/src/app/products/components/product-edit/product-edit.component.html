@@ -98,3 +98,8 @@
 <div *ngIf="errorMessage" class="alert alert-danger">
   Error: {{ errorMessage }}
 </div>
+<div>
+  Here we show the reviews:
+  {{ review$ | async | json }}
+</div>
+

@@ -1,13 +1,15 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
+import {Component, OnInit, OnDestroy, InjectionToken, Inject} from '@angular/core';
+import {NgForm} from '@angular/forms';
+import {Router, ActivatedRoute} from '@angular/router';
 
-import { AuthService } from './auth.service';
+import {AuthService} from './auth.service';
 
-import { takeWhile } from 'rxjs/operators';
+import {takeWhile} from 'rxjs/operators';
+import * as fromLogAction from '../log/state/log.action';
+import * as fromReducer from '../log/state/log.reducer';
 
 /* NgRx */
-import { Store, select } from '@ngrx/store';
+import {Store, select} from '@ngrx/store';
 import * as fromUser from './state';
 import * as userActions from './state/user.actions';
 import * as fromRoot from '../state/app.state';
@@ -25,7 +27,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   constructor(private store: Store<fromRoot.State>,
               private authService: AuthService,
-              private router: Router) { }
+              private router: Router) {
+  }
 
   ngOnInit(): void {
     this.store.pipe(
@@ -50,13 +53,14 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   login(loginForm: NgForm): void {
     if (loginForm && loginForm.valid) {
-      const userName = loginForm.form.value.userName;
-      const password = loginForm.form.value.password;
+      const userName = loginForm.form.value.userName.toString();
+      const password = loginForm.form.value.password.toString();
       this.authService.login(userName, password);
 
       if (this.authService.redirectUrl) {
         this.router.navigateByUrl(this.authService.redirectUrl);
       } else {
+        this.store.dispatch(new fromLogAction.LogUserLogonAction(userName));
         this.router.navigate(['/products']);
       }
     } else {

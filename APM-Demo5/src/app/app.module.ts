@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -22,8 +22,20 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {GridModule} from '@progress/kendo-angular-grid';
+
+
 
 @NgModule({
+  providers: [
+    {
+      provide: 'AppSettings',
+      useValue: {
+        dateFormat: 'dd.mm.yyyy HH:mm:ss'
+      },
+    }
+  ],
   imports: [
     BrowserModule,
     HttpClientModule,
@@ -36,15 +48,18 @@ import { EffectsModule } from '@ngrx/effects';
       maxAge: 25,
       logOnly: environment.production,
     }),
-    EffectsModule.forRoot([])
+    EffectsModule.forRoot([]),
+    BrowserAnimationsModule,
+    GridModule,
   ],
   declarations: [
     AppComponent,
     ShellComponent,
     MenuComponent,
     WelcomeComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -5,6 +5,8 @@ import { Observable } from 'rxjs';
 import * as fromProduct from './../../state';
 import * as productActions from './../../state/product.actions';
 import { Product } from '../../product';
+import {ReviewState} from '../../state/review.reducer';
+import {Review} from '../../review';
 
 @Component({
   templateUrl: './product-shell.component.html',

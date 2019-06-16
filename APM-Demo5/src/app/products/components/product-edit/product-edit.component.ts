@@ -13,6 +13,12 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Product } from '../../product';
 import { GenericValidator } from '../../../shared/generic-validator';
 import { NumberValidators } from '../../../shared/number.validator';
+import {Observable} from 'rxjs';
+import {Review} from '../../review';
+import * as fromReview from '../../state/review.reducer';
+import * as fromProduct from '../../state';
+import {Store, select} from '@ngrx/store';
+import {sayHello} from '../../../shared/table.utils';
 
 @Component({
   selector: 'pm-product-edit',
@@ -28,6 +34,8 @@ export class ProductEditComponent implements OnInit, OnChanges, OnDestroy {
   @Output() delete = new EventEmitter<Product>();
   @Output() clearCurrent = new EventEmitter<void>();
 
+  public review$: Observable<Review[]>;
+
   componentActive = true;
   productForm: FormGroup;
 
@@ -38,7 +46,8 @@ export class ProductEditComponent implements OnInit, OnChanges, OnDestroy {
   private validationMessages: { [key: string]: { [key: string]: string } };
   private genericValidator: GenericValidator;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder,
+              private store: Store<fromReview.ReviewState>) {
     // Defines all of the validation messages for the form.
     // These could instead be retrieved from a file or database.
     this.validationMessages = {
@@ -58,6 +67,8 @@ export class ProductEditComponent implements OnInit, OnChanges, OnDestroy {
     // Define an instance of the validator for use with this form,
     // passing in this form's set of validation messages.
     this.genericValidator = new GenericValidator(this.validationMessages);
+    this.review$ = this.store.pipe(select(fromProduct.getReviews));
+    sayHello();
   }
 
   ngOnInit(): void {

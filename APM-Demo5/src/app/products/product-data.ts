@@ -1,6 +1,7 @@
 import { InMemoryDbService } from 'angular-in-memory-web-api';
 
 import { Product } from './product';
+import { Review } from './review';
 
 export class ProductData implements InMemoryDbService {
 
@@ -42,6 +43,33 @@ export class ProductData implements InMemoryDbService {
                 'starRating': 4.6
             }
         ];
-        return { products };
+        const reviews: Review[] = [
+          {
+            'id': 1,
+            'productId': 1,
+            'comment': 'Gut aussenende Werkzeug, der sein Job macht. Nach ein und einhalb Jarhe lockert sich leider den Kopf' +
+                        'von dem Holzstange.',
+            'rating': 3.0
+          },
+          {
+            'id': 2,
+            'productId': 1,
+            'comment': 'Bisher habe ich keine Probleme gehabt.. ich finde diese Harke zuverlässig',
+            'rating': 3.4
+          },
+          {
+            'id': 3,
+            'productId': 2,
+            'comment': 'Das Volumen ist schon praktisch und der Rad sehr robust',
+            'rating': 4.2
+          },
+          {
+            'id': 4,
+            'productId': 5,
+            'comment': 'Der Hammer ist sehr handhabbar und auch für die entziehung Nagel sehr praktisch.',
+            'rating': 4.8
+          }
+        ];
+        return { products, reviews };
     }
 }

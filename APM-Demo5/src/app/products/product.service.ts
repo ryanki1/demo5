@@ -5,6 +5,8 @@ import { Observable, of, throwError } from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
 
 import { Product } from './product';
+import {Review} from './review';
+import {ReviewState} from './state/review.reducer';
 
 @Injectable({
   providedIn: 'root',
@@ -18,6 +20,23 @@ export class ProductService {
     return this.http.get<Product[]>(this.productsUrl)
       .pipe(
         tap(data => console.log(JSON.stringify(data))),
+        catchError(this.handleError)
+      );
+  }
+
+  getReviews(productId: number, url: string): Observable<ReviewState> {
+    return this.http.get<Review[]>(`${url}?productId=${productId}`)
+      .pipe(
+        tap((reviews: Review[]) =>
+          console.log(JSON.stringify(reviews))
+        ),
+        map((reviews: Review[]) => {
+          return {
+            productId: productId,
+            reviews: reviews,
+            error: ''
+          } as ReviewState;
+        }),
         catchError(this.handleError)
       );
   }
@@ -71,3 +90,5 @@ export class ProductService {
   }
 
 }
+
+

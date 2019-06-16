@@ -9,7 +9,7 @@ import { PageNotFoundComponent } from './home/page-not-found.component';
 
 const appRoutes: Routes = [
   {
-    path: '',
+    path: 'to/be/or/not/toBe/thatisThe/question/welcome',
     component: ShellComponent,
     children: [
       { path: 'welcome', component: WelcomeComponent },

@@ -7,13 +7,34 @@
   <div class="card-body" *ngIf="products">
     <div class="list-group">
       <button class="list-group-item list-group-item-action rounded-0"
-          *ngFor="let product of products"
-          [ngClass]="{'active': product?.id === selectedProduct?.id}"
-          (click)="productSelected(product)">{{ product.productName }}
+              *ngFor="let product of products"
+              [ngClass]="{'active': product?.id === selectedProduct?.id}"
+              (click)="productSelected(product)">{{ product.productName }}
         <ng-container *ngIf="displayCode">
           ({{ product.productCode }})
         </ng-container>
       </button>
+    </div>
+    <div class="row">
+      kendo-ui
+    </div>
+    <div class="row">
+      <kendo-dropdownlist #dropDownList
+                          [data]="dataDropdown"
+                          (valueChange)="onChange($event, grid)">
+      </kendo-dropdownlist>
+    </div>
+    <div class="row">
+      <kendo-grid #grid
+                  [data]="log$ | async"
+                  [filterable]="{multi: true}">
+        <kendo-grid-column field="action">
+        </kendo-grid-column>
+        <kendo-grid-column field="timestamp"
+                           filter="date"
+                           format="{0:dd-MM-yyyy HH:mm:ss}"></kendo-grid-column>
+        <kendo-grid-column field="user"></kendo-grid-column>
+      </kendo-grid>
     </div>
   </div>
 
